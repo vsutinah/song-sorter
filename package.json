@@ -1,0 +1,17 @@
+{
+  "name": "song-sorter",
+  "version": "1.0.0",
+  "description": "Sorts songs from Spotify playlist based on genre",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent Sutinah",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "ejs": "^3.1.5",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1"
+  }
+}
