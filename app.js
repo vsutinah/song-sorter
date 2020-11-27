@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 const axios = require('axios'), 
     ejsMate = require('ejs-mate'),
     express = require('express'),
     path = require('path'),
     app = express();
 
-const clientID = 'e1c1fa5ca9af45b39bb13a8382b027ed';
-const redirectURI = encodeURIComponent('https://localhost:3000/callback/');
+const clientID = process.env.SPOTIFY_CLIENT_ID;
+const redirectURI = encodeURIComponent(process.env.REDIRECT_URI);
 const spotifyURI = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectURI}`;
 
 // EJS & path setup
@@ -23,7 +25,20 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/callback', (req, res) => {
-    res.render('callback');
+    const code = req.query.code;
+    console.log(code);
+    axios.post('https://accounts.spotify.com/api/token', {
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: redirectURI
+    })
+    .then(() => {
+        res.redirect('/success');
+    })
+})
+
+app.get('/success', (req, res) => {
+    res.render('callback')
 })
 
 app.listen(3000, () => {
